@@ -28,38 +28,36 @@ function initExtension() {
   console.log("Cantidad de elementos hijos:", originalSwimlane.children.length);
   console.log("Cantidad de nodos (incluyendo textos):", originalSwimlane.childNodes.length);
 
-  const clonedNode = originalSwimlane.cloneNode(true);
-  console.log(clonedNode)
+  const newSwimlane = originalSwimlane.cloneNode(true);
+  const initialContent = newSwimlane.firstChild;
+  console.log("New swimlane", newSwimlane)
 
-  boardsList.insertBefore(clonedNode, originalSwimlane.nextSibling)
-  observeMutations(originalSwimlane)
+  boardsList.insertBefore(newSwimlane, originalSwimlane.nextSibling)
+  observeMutations(originalSwimlane, mutation => {
+    // Verificamos si se agregaron nodos
+    mutation.addedNodes.forEach(addedNode => {
+      console.log(addedNode);
+
+      // Aseguramos que sea un nodo de elemento
+      if (addedNode.nodeType === Node.ELEMENT_NODE) {
+        // Por ejemplo, si queremos detectar nodos con la clase "board"
+        if (addedNode.matches && addedNode.matches('[data-testid="board-list"]')) {
+          console.log('Nodo .board agregado:', addedNode);
+          // Aquí puedes ejecutar la manipulación que necesites
+          newSwimlane.insertBefore(addedNode.cloneNode(true), initialContent);
+        }
+      }
+    });
+  })
 };
 
-function observeMutations(targetNode) {
+function observeMutations(targetNode, onMutation) {
   // Configuramos las opciones del observer para que escuche adiciones en todo el subárbol
   const config = { childList: true, subtree: true };
 
   // Callback que se ejecuta cuando hay cambios en el DOM
   const callback = (mutationsList, observer) => {
-    mutationsList.forEach(mutation => {
-      // Verificamos si se agregaron nodos
-      mutation.addedNodes.forEach(addedNode => {
-        // Aseguramos que sea un nodo de elemento
-        if (addedNode.nodeType === Node.ELEMENT_NODE) {
-          // Por ejemplo, si queremos detectar nodos con la clase "board"
-          if (addedNode.matches && addedNode.matches('.board')) {
-            console.log('Nodo .board agregado:', addedNode);
-            // Aquí puedes ejecutar la manipulación que necesites
-          }
-          // Además, podemos buscar dentro de este nodo si hay elementos que coincidan
-          const boards = addedNode.querySelectorAll('.board');
-          boards.forEach(boardNode => {
-            console.log('Nodo .board detectado en subárbol:', boardNode);
-            // Realiza la acción deseada con boardNode
-          });
-        }
-      });
-    });
+    mutationsList.forEach(onMutation);
   };
 
   // Creamos el observer
