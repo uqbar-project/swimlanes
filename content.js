@@ -31,8 +31,7 @@ function initExtension() {
   const clonedNode = originalSwimlane.cloneNode(true);
   console.log(clonedNode)
 
-  // boardsList.insertBefore(clonedNode, originalSwimlane.nextSibling)
-  boardsList.insertBefore(boardContainer, originalSwimlane.nextSibling)
+  boardsList.insertBefore(clonedNode, originalSwimlane.nextSibling)
   observeMutations(originalSwimlane)
 };
 
