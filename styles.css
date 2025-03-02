@@ -1,0 +1,26 @@
+#custom-board {
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .board {
+    background-color: blue !important;
+    width: 350px;
+  }
+
+  .board.is-expandable:not(.is-collapsed) {
+    /* Tus estilos */
+    width: 350px;
+  }
+
+  /* .gl-relative.gl-inline-block.gl-h-full.gl-whitespace-normal.gl-px-3.gl-align-top
+  gl-relative gl-inline-block gl-h-full gl-whitespace-normal gl-px-3 gl-align-top is-collapsed gl-w-10" */
+
+  .swimlanes .boards-list {
+    height: 100px;
+  }
+}
