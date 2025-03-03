@@ -8,15 +8,14 @@
 
 @media (min-width: 576px) {
   .swimlanes .board:not(.is-collapsed) {
-    /* Tus estilos */
     width: 350px;
-    border: 1px blue solid;
   }
-
-  /* .gl-relative.gl-inline-block.gl-h-full.gl-whitespace-normal.gl-px-3.gl-align-top
-  gl-relative gl-inline-block gl-h-full gl-whitespace-normal gl-px-3 gl-align-top is-collapsed gl-w-10" */
 
   .swimlanes .boards-list {
     height: 100px;
+  }
+
+  .swimlanes .board-list-component {
+    border: 1px blue solid;
   }
 }

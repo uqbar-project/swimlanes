@@ -36,7 +36,7 @@ function initExtension() {
   observeMutations(originalSwimlane, mutation => {
     // Verificamos si se agregaron nodos
     mutation.addedNodes.forEach(addedNode => {
-      console.log(addedNode);
+      // console.log(addedNode);
 
       // Aseguramos que sea un nodo de elemento
       if (addedNode.nodeType === Node.ELEMENT_NODE) {
