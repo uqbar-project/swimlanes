@@ -3,7 +3,7 @@
   "name": "Gitlab Swimlanes Chrome Plugin",
   "version": "1.0",
   "description": "Modifica la vista de GitLab mostrando un tablero personalizado con swimlanes.",
-  "permissions": ["webRequest"],
+  "permissions": ["webRequest", "scripting"],
   "host_permissions": ["*://gitlab.arba.gov.ar/*"],
   "background": {
     "service_worker": "background.js"
@@ -12,7 +12,8 @@
     {
       "matches": ["https://gitlab.arba.gov.ar/*"],
       "js": ["content.js"],
-      "css": ["styles.css"]
+      "css": ["styles.css"],
+      "run_at": "document_start"
     }
   ]
 }

@@ -12,9 +12,9 @@ chrome.webRequest.onBeforeRequest.addListener(
 );
 
 function getBody(details) {
-  console.log("getBody", details.requestBody.raw, details.requestBody.raw.length)
   if (details.requestBody.raw && details.requestBody.raw.length) {
     const decoder = new TextDecoder('utf-8');
+
     // Decodificamos cada fragmento y los unimos en un solo string
     const requestBodyString = details.requestBody.raw
       .map(element => decoder.decode(element.bytes))
@@ -29,3 +29,24 @@ function getBody(details) {
     }
   }
 }
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "pageLoaded" && sender.tab) {
+    console.log("Mensaje 'pageLoaded' recibido del tab:", {
+      id: sender.tab.id,
+      title: sender.tab.title,
+      url: sender.tab.url
+    });
+    chrome.scripting.executeScript({
+      target: { tabId: sender.tab.id },
+      files: ['fetchOverride.js'],
+      world: 'MAIN'
+    }, (results) => {
+      if (chrome.runtime.lastError) {
+        console.error("Error inyectando fetchOverride.js:", chrome.runtime.lastError);
+      } else {
+        console.log("fetchOverride.js inyectado correctamente en el tab", sender.tab.id);
+      }
+    });
+  }
+});
