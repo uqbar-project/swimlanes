@@ -30,23 +30,23 @@ function getBody(details) {
   }
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "pageLoaded" && sender.tab) {
-    console.log("Mensaje 'pageLoaded' recibido del tab:", {
-      id: sender.tab.id,
-      title: sender.tab.title,
-      url: sender.tab.url
-    });
-    chrome.scripting.executeScript({
-      target: { tabId: sender.tab.id },
-      files: ['fetchOverride.js'],
-      world: 'MAIN'
-    }, (results) => {
-      if (chrome.runtime.lastError) {
-        console.error("Error inyectando fetchOverride.js:", chrome.runtime.lastError);
-      } else {
-        console.log("fetchOverride.js inyectado correctamente en el tab", sender.tab.id);
-      }
-    });
-  }
-});
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//   if (message.type === "pageLoaded" && sender.tab) {
+//     console.log("Mensaje 'pageLoaded' recibido del tab:", {
+//       id: sender.tab.id,
+//       title: sender.tab.title,
+//       url: sender.tab.url
+//     });
+//     chrome.scripting.executeScript({
+//       target: { tabId: sender.tab.id },
+//       files: ['fetchOverride.js'],
+//       world: 'MAIN'
+//     }, (results) => {
+//       if (chrome.runtime.lastError) {
+//         console.error("Error inyectando fetchOverride.js:", chrome.runtime.lastError);
+//       } else {
+//         console.log("fetchOverride.js inyectado correctamente en el tab", sender.tab.id);
+//       }
+//     });
+//   }
+// });
