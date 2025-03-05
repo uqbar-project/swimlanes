@@ -1,5 +1,4 @@
 console.log("Gitlab Swimlanes extension init.");
-const milestones = new Set()
 
 // Wait for the DOM to load
 if (document.readyState === "loading") {
@@ -11,7 +10,9 @@ if (document.readyState === "loading") {
 }
 
 function initExtension() {
-  observeTimeout();
+  const milestones = new Set()
+  observeTimeout(() => console.log(milestones));
+
   console.log("Gitlab Swimlanes extension loaded.")
   chrome.runtime.sendMessage({ type: "pageLoaded" });
 
@@ -33,7 +34,7 @@ function initExtension() {
   console.log("Cantidad de elementos hijos:", originalSwimlane.children.length);
   console.log("Cantidad de nodos (incluyendo textos):", originalSwimlane.childNodes.length);
 
-  observeMutations(originalSwimlane, mutation => {
+  observeEachMutation(originalSwimlane, mutation => {
     // Verificamos si se agregaron nodos
     mutation.addedNodes.forEach(addedNode => {
       // console.log(addedNode)
@@ -56,36 +57,19 @@ function initExtension() {
   })
 };
 
-function observeMutations(targetNode, onMutation) {
-  // Configuramos las opciones del observer para que escuche adiciones en todo el subárbol
-  const config = { childList: true, subtree: true };
-
-  // Callback que se ejecuta cuando hay cambios en el DOM
-  const callback = (mutationsList, observer) => {
-    mutationsList.forEach(onMutation);
-  };
-
-  // Creamos el observer
-  const observer = new MutationObserver(callback);
-
-  // Iniciamos la observación en el nodo objetivo
-  observer.observe(targetNode, config);
-
-}
-
-function observeTimeout() {
-  console.log("OBserving mutations")
+function observeTimeout(callback, timeout = 200) {
   let mutationTimeout;
 
-  const observer = new MutationObserver((mutationsList) => {
+  observeMutations(document.body, () => {
     clearTimeout(mutationTimeout);
-    mutationTimeout = setTimeout(() => {
-      console.log(milestones)
-    }, 200); // espera 500 ms sin cambios
-  });
+    mutationTimeout = setTimeout(callback, timeout);
+  })
+}
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+function observeEachMutation(targetNode, onMutation) {
+  observeMutations(targetNode, mutationsList => mutationsList.forEach(onMutation))
+}
+
+function observeMutations(targetNode, callback, config = { childList: true, subtree: true }) {
+  new MutationObserver(callback).observe(targetNode, config);
 }
