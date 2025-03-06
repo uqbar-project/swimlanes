@@ -10,9 +10,6 @@ if (document.readyState === "loading") {
 }
 
 function initExtension() {
-  const milestones = new Set()
-  observeTimeout(() => console.log(milestones));
-
   console.log("Gitlab Swimlanes extension loaded.")
   chrome.runtime.sendMessage({ type: "pageLoaded" });
 
@@ -34,6 +31,9 @@ function initExtension() {
   console.log("Cantidad de elementos hijos:", originalSwimlane.children.length);
   console.log("Cantidad de nodos (incluyendo textos):", originalSwimlane.childNodes.length);
 
+  const milestones = {}
+  observeTimeout(() => console.log(milestones));
+
   observeEachMutation(originalSwimlane, mutation => {
     // Verificamos si se agregaron nodos
     mutation.addedNodes.forEach(addedNode => {
@@ -50,7 +50,10 @@ function initExtension() {
 
         if (addedNode.classList.contains('board-card')) {
           const milestoneSpan = addedNode.querySelector('span.milestone-title')
-          milestones.add(milestoneSpan?.innerText);
+          const milestoneName = milestoneSpan?.innerText
+          if (milestoneName && !milestones[milestoneName]) {
+            milestones[milestoneName] = milestoneSpan.cloneNode(true)
+          }
         }
       }
     });
