@@ -32,6 +32,7 @@ function initExtension() {
   console.log("Cantidad de nodos (incluyendo textos):", originalSwimlane.childNodes.length);
 
   const milestones = {}
+  const boardLists = []
   observeTimeout(() => console.log(milestones));
 
   observeEachMutation(originalSwimlane, mutation => {
@@ -43,16 +44,23 @@ function initExtension() {
       if (addedNode.nodeType === Node.ELEMENT_NODE) {
         // Por ejemplo, si queremos detectar nodos con la clase "board"
         if (addedNode.matches && addedNode.matches('[data-testid="board-list"]')) {
+          console.log("new board", boardLists)
+          boardLists.push(addedNode.querySelector('.board-list-component'))
+          // board-list-component
           // console.log('Nodo .board agregado:', addedNode);
           // Aquí puedes ejecutar la manipulación que necesites
           // newSwimlane.insertBefore(addedNode.cloneNode(true), initialContent);
         }
 
         if (addedNode.classList.contains('board-card')) {
-          const milestoneSpan = addedNode.querySelector('span.milestone-title')
-          const milestoneName = milestoneSpan?.innerText
-          if (milestoneName && !milestones[milestoneName]) {
-            milestones[milestoneName] = milestoneSpan.cloneNode(true)
+          const milestoneDiv = addedNode.querySelector('.issue-milestone-details')
+          if (milestoneDiv) {
+            const milestoneName = addedNode.querySelector('span.milestone-title').innerText
+            if (!milestones[milestoneName]) {
+              console.log("new milestone", boardLists)
+              milestones[milestoneName] = milestoneDiv.cloneNode(true)
+              boardLists[1].insertBefore(milestones[milestoneName], boardLists[1].querySelector('ul'))
+            }
           }
         }
       }
