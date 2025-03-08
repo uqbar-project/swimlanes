@@ -1,3 +1,5 @@
+import { observeTimeout, observeEachMutation } from './util/observeMutations.js';
+
 console.log("Gitlab Swimlanes extension init.");
 
 // Wait for the DOM to load
@@ -72,19 +74,3 @@ function initExtension() {
   })
 };
 
-function observeTimeout(callback, timeout = 200) {
-  let mutationTimeout;
-
-  observeMutations(document.body, () => {
-    clearTimeout(mutationTimeout);
-    mutationTimeout = setTimeout(callback, timeout);
-  })
-}
-
-function observeEachMutation(targetNode, onMutation) {
-  observeMutations(targetNode, mutationsList => mutationsList.forEach(onMutation))
-}
-
-function observeMutations(targetNode, callback, config = { childList: true, subtree: true }) {
-  new MutationObserver(callback).observe(targetNode, config);
-}

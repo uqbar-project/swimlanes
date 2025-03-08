@@ -1,0 +1,23 @@
+{
+  "name": "swimlanes",
+  "version": "1.0.0",
+  "description": "Una extensión de Chrome para modificar la vista de GitLab, mostrando un tablero personalizado (swimlanes) que agrupa las tarjetas por hitos.",
+  "main": "main.js",
+  "scripts": {
+    "build": "esbuild src/content.js --bundle --minify --sourcemap --outfile=dist/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uqbar-project/swimlanes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uqbar-project/swimlanes/issues"
+  },
+  "homepage": "https://github.com/uqbar-project/swimlanes#readme",
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
