@@ -36,6 +36,8 @@ function initExtension() {
   observeTimeout(() => console.log(milestones));
 
   observeEachMutation(originalSwimlane, mutation => {
+    mutation.removedNodes.forEach(removedNode => console.log("removed", removedNode))
+
     // Verificamos si se agregaron nodos
     mutation.addedNodes.forEach(addedNode => {
       // console.log(addedNode)
@@ -57,9 +59,11 @@ function initExtension() {
           if (milestoneDiv) {
             const milestoneName = addedNode.querySelector('span.milestone-title').innerText
             if (!milestones[milestoneName]) {
-              console.log("new milestone", boardLists)
-              milestones[milestoneName] = milestoneDiv.cloneNode(true)
-              boardLists[1].insertBefore(milestones[milestoneName], boardLists[1].querySelector('ul'))
+              const milestoneMarker = milestoneDiv.cloneNode(true)
+              milestoneMarker.classList.add('board-card', 'gl-w-full', 'gl-text-sm', 'gl-text-subtle', 'gl-p-2');
+              milestoneMarker.classList.remove('gl-max-w-15');
+              milestones[milestoneName] = milestoneMarker
+              boardLists[1].insertBefore(milestoneMarker, boardLists[1].querySelector('ul'))
             }
           }
         }

@@ -10,12 +10,4 @@
   .swimlanes .board:not(.is-collapsed) {
     width: 350px;
   }
-
-  .swimlanes .boards-list {
-    height: 100px;
-  }
-
-  .swimlanes .board-list-component {
-    border: 1px blue solid;
-  }
 }
