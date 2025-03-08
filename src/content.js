@@ -1,4 +1,5 @@
 import { observeTimeout, observeEachMutation } from './util/observeMutations.js';
+import { getMilestone } from './model/card.js'
 
 console.log("Gitlab Swimlanes extension init.");
 
@@ -57,16 +58,10 @@ function initExtension() {
         }
 
         if (addedNode.classList.contains('board-card')) {
-          const milestoneDiv = addedNode.querySelector('.issue-milestone-details')
-          if (milestoneDiv) {
-            const milestoneName = addedNode.querySelector('span.milestone-title').innerText
-            if (!milestones[milestoneName]) {
-              const milestoneMarker = milestoneDiv.cloneNode(true)
-              milestoneMarker.classList.add('board-card', 'gl-w-full', 'gl-text-sm', 'gl-text-subtle', 'gl-p-2');
-              milestoneMarker.classList.remove('gl-max-w-15');
-              milestones[milestoneName] = milestoneMarker
-              boardLists[1].insertBefore(milestoneMarker, boardLists[1].querySelector('ul'))
-            }
+          const milestone = getMilestone(addedNode)
+          if (milestone && !milestones[milestone.name]) {
+            milestones[milestone.name] = milestone
+            boardLists[1].insertBefore(milestone.marker, boardLists[1].querySelector('ul'))
           }
         }
       }
