@@ -35,7 +35,7 @@ function initExtension() {
 
   const milestones = {}
   const boardLists = []
-  observeTimeout(() => console.log(milestones));
+  observeTimeout(() => console.log("Render finished", milestones), 500);
 
   observeEachMutation(originalSwimlane, mutation => {
     mutation.removedNodes.forEach(removedNode => console.log("removed", removedNode))

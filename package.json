@@ -4,7 +4,8 @@
   "description": "Una extensión de Chrome para modificar la vista de GitLab, mostrando un tablero personalizado (swimlanes) que agrupa las tarjetas por hitos.",
   "main": "main.js",
   "scripts": {
-    "build": "esbuild src/content.js --bundle --minify --sourcemap --outfile=dist/bundle.js"
+    "build": "esbuild src/content.js --bundle --minify --sourcemap --outfile=dist/bundle.js",
+    "watch": "esbuild src/content.js --bundle --sourcemap --outfile=dist/bundle.js --watch"
   },
   "repository": {
     "type": "git",
