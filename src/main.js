@@ -1,7 +1,7 @@
 import { observeTimeout, observeEachMutation } from './util/observeMutations.js';
-import { getMilestone } from './model/card.js'
-import { onColumnNodeAdded } from './inspect'
-import Board from './render/board.js';
+import { onColumnNodeAdded, onCardNodeAdded } from './inspect'
+import Board from './render/board.js'
+import { Card } from './model'
 
 export default function main() {
   const boardsList = document.querySelector('[data-testid="boards-list"]');
@@ -28,12 +28,12 @@ export default function main() {
 
         // newSwimlane.insertBefore(addedNode.cloneNode(true), initialContent);
 
-        if (addedNode.classList.contains('board-card')) {
-          const milestone = getMilestone(addedNode)
+        onCardNodeAdded(addedNode, card => {
+          const milestone = card.getMilestone()
           if (milestone && !board.containsSwimlane(milestone)) {
             board.addSwimlane(milestone)
           }
-        }
+        })
       }
     });
   })
