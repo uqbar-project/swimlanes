@@ -7,7 +7,7 @@ export default class Board {
 
   addSwimlane = (swimlane) => {
     this.swimlanes[swimlane.name] = swimlane
-    this.columns[1].insertBefore(swimlane.marker, this.columns[1].querySelector('ul'))
+    this.columns[1].insertBefore(swimlane.createMarker(), this.columns[1].querySelector('ul'))
   }
 
   addColumn(column) {

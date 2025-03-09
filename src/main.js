@@ -29,7 +29,7 @@ export default function main() {
         // newSwimlane.insertBefore(addedNode.cloneNode(true), initialContent);
 
         onCardNodeAdded(addedNode, card => {
-          const milestone = card.getMilestone()
+          const milestone = card.milestone
           if (milestone && !board.containsSwimlane(milestone)) {
             board.addSwimlane(milestone)
           }
