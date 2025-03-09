@@ -20,11 +20,28 @@ export class BoardColumn {
     this.node = node
   }
 
-  getCardAreaNode() {
-    return this.node.querySelector('.board-list-component')
+  get cardArea() {
+    return new CardArea(this.node.querySelector('.board-list-component'))
   }
 
   addSwimLane = (swimlane) => {
-    this.getCardAreaNode().insertBefore(swimlane.createMarker(), this.getCardAreaNode().querySelector('ul'))
+    this.cardArea.setMarker(swimlane.createMarker())
+    // const originalNode = document.querySelector('#miNodo'); // o cualquier selector que necesites
+    // const clonedNode = originalNode.cloneNode(true); // true para clonar recursivamente todos los subnodos
+    // originalNode.parentNode.insertBefore(clonedNode, originalNode.nextSibling);
+
+  }
+}
+
+/**
+ * A CardArea is a subset of the cards in a column, which might have a title or marker, like a specific milestone or label
+ */
+export class CardArea {
+  constructor(node) {
+    this.node = node
+  }
+
+  setMarker(marker) {
+    this.node.insertBefore(marker, this.node.querySelector('ul'))
   }
 }
