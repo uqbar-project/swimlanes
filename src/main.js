@@ -1,5 +1,6 @@
 import { observeTimeout, observeEachMutation } from './util/observeMutations.js';
 import { getMilestone } from './model/card.js'
+import { onColumnNodeAdded } from './inspect'
 import Board from './render/board.js';
 
 export default function main() {
@@ -21,18 +22,11 @@ export default function main() {
 
     // Verificamos si se agregaron nodos
     mutation.addedNodes.forEach(addedNode => {
-      // console.log(addedNode)
-
       // Aseguramos que sea un nodo de elemento
       if (addedNode.nodeType === Node.ELEMENT_NODE) {
-        // Por ejemplo, si queremos detectar nodos con la clase "board"
-        if (addedNode.matches && addedNode.matches('[data-testid="board-list"]')) {
-          board.addBoardList(addedNode.querySelector('.board-list-component'))
-          // board-list-component
-          // console.log('Nodo .board agregado:', addedNode);
-          // Aquí puedes ejecutar la manipulación que necesites
-          // newSwimlane.insertBefore(addedNode.cloneNode(true), initialContent);
-        }
+        onColumnNodeAdded(addedNode, column => board.addColumn(column))
+
+        // newSwimlane.insertBefore(addedNode.cloneNode(true), initialContent);
 
         if (addedNode.classList.contains('board-card')) {
           const milestone = getMilestone(addedNode)

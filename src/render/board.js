@@ -1,17 +1,25 @@
 
 export default class Board {
   swimlanes = {}
-  boardLists = []
+  columns = []
 
   containsSwimlane = (swimlane) => !!this.swimlanes[swimlane.name]
 
   addSwimlane = (swimlane) => {
     this.swimlanes[swimlane.name] = swimlane
-    this.boardLists[1].insertBefore(swimlane.marker, this.boardLists[1].querySelector('ul'))
+    this.columns[1].insertBefore(swimlane.marker, this.columns[1].querySelector('ul'))
   }
 
-  addBoardList(boardList) {
-    this.boardLists.push(boardList)
+  addColumn(column) {
+    this.columns.push(column.getCardAreaNode())
   }
 }
+export class BoardColumn {
+  constructor(node) {
+    this.node = node
+  }
 
+  getCardAreaNode() {
+    return this.node.querySelector('.board-list-component')
+  }
+}
