@@ -7,11 +7,12 @@ export default class Board {
 
   addSwimlane = (swimlane) => {
     this.swimlanes[swimlane.name] = swimlane
-    this.columns[1].insertBefore(swimlane.createMarker(), this.columns[1].querySelector('ul'))
+    console.log(this.columns[1])
+    this.columns[1].addSwimLane(swimlane)
   }
 
   addColumn(column) {
-    this.columns.push(column.getCardAreaNode())
+    this.columns.push(column)
   }
 }
 export class BoardColumn {
@@ -21,5 +22,9 @@ export class BoardColumn {
 
   getCardAreaNode() {
     return this.node.querySelector('.board-list-component')
+  }
+
+  addSwimLane = (swimlane) => {
+    this.getCardAreaNode().insertBefore(swimlane.createMarker(), this.getCardAreaNode().querySelector('ul'))
   }
 }
